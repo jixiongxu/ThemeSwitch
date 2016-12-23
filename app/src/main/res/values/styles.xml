@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#6ab344</item>
+        <item name="colorPrimaryDark">#318505</item>
+        <item name="colorAccent">#ff00ff</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="default_bg_color">#ffffff</item>
+        <item name="default_text_color">#f9f9f9</item>
+        <item name="default_title_name">@string/app_name</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="AppThemeNight" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#444842</item>
+        <item name="colorPrimaryDark">#1c1e1b</item>
+        <item name="colorAccent">#ffff00</item>
+        <item name="default_bg_color">#000000</item>
+        <item name="default_text_color">#b5b5b5</item>
+        <item name="default_title_name">@string/app_name_night</item>
+    </style>
+
+</resources>

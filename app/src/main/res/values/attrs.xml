@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 默认标题名称 -->
+    <attr name="default_title_name" format="string"/>
+    <!-- 默认背景色 -->
+    <attr name="default_bg_color" format="color"/>
+    <!-- 默认文字颜色 -->
+    <attr name="default_text_color" format="color"/>
+</resources>
