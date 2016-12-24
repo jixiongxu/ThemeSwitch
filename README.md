@@ -88,5 +88,5 @@ Android 原生支持通过`setTheme`方法为任一界面单独设置主题样�
 ### 0x04 总结
 以上就是主题切换功能常见的几种实现方案，聚力视频APP目前采用最后一种。也许还有其他的实现方案。但这些实现方案中很难说哪种最好，毕竟就技术而言，常常只有最适合的方案，而没有最好的方案。
 
-参考文章 :
-[https://blog.stylingandroid.com/prism-fundamentals-part-1/](https://blog.stylingandroid.com/prism-fundamentals-part-1/)
+> 参考文章 :
+> [https://blog.stylingandroid.com/prism-fundamentals-part-1/](https://blog.stylingandroid.com/prism-fundamentals-part-1/)
