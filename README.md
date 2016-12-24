@@ -12,7 +12,7 @@ Android 原生支持通过`setTheme`方法为任一界面单独设置主题样�
 
 改变主题时重启当前界面对用户来说不是一个好的体验，可以通过记录当前界面需要支持主题切换的控件，在切换主题时直接为这些控件设置新的属性值来规避这个问题。
 
-图1-1是一个示例程序的运行效果：
+图1-1是一个示例程序的运行效果：(图片不显示或显示不完整，请戳：[http://120.24.93.248/images/pptv/theme-switch-style.gif](http://120.24.93.248/images/pptv/theme-switch-style.gif))
 
 ![效果图](http://120.24.93.248/images/pptv/theme-switch-style.gif)
 
@@ -33,7 +33,7 @@ Android 原生支持通过`setTheme`方法为任一界面单独设置主题样�
 
 需要注意的是，如果主题包比较大，解析、加载其中的资源文件将会是一个耗时的过程，有必要放在一个独立的线程中。另外，可能需要为不同分辨率的设备提供不同尺寸的主题包，防止低分辨率的手机在加载主题资源时出现内存溢出（`OOM`）的问题。
 
-图2-1是一个示例程序的运行效果：
+图2-1是一个示例程序的运行效果：(图片不显示或显示不完整，请戳：[http://120.24.93.248/images/pptv/theme-switch-zip.gif](http://120.24.93.248/images/pptv/theme-switch-zip.gif))
 
 ![效果图](http://120.24.93.248/images/pptv/theme-switch-zip.gif)
 
@@ -52,14 +52,14 @@ Android 原生支持通过`setTheme`方法为任一界面单独设置主题样�
 ### 0x03 动态加载apk主题包实现主题切换
 方案2虽然可以实现动态的主题切换，也方便制作多套主题。但是，需要在程序中自己实现查找、解析资源的过程，切换主题耗时比较长。
 
-如果可以像使用APP内部资源一样直接通过资源id或描述符使用主题包资源，就省去了查找、解析资源的过程。调研发现，Android的资源查找、管理离不开`AssetManager`和`Resources`这两个类，APP资源的管理实际是由这两个类实现的。其中`Resources`类可以根据id来查找资源，`AssetManager`类根据文件名来查找资源。如图3-1
+如果可以像使用APP内部资源一样直接通过资源id或描述符使用主题包资源，就省去了查找、解析资源的过程。调研发现，Android的资源查找、管理离不开`AssetManager`和`Resources`这两个类，APP资源的管理实际是由这两个类实现的。其中`Resources`类可以根据id来查找资源，`AssetManager`类根据文件名来查找资源。如图3-1 (图片不显示或显示不完整，请戳：[http://120.24.93.248/images/pptv/theme-switch-resources.png](http://120.24.93.248/images/pptv/theme-switch-resources.png))
 
 ![效果图](http://120.24.93.248/images/pptv/theme-switch-resources.png)
 
 (图3-1 图片来源于：http://blog.csdn.net/beyond702/article/details/49228115)
 
 而`AssetManager`恰巧可以通过`addAssetPath`方法实现对非APP内部的其他资源的管理。
-因此，为了实现使用id或资源描述符来查找主题包中的资源，我们需要将主题资源编译打包成一个apk(也是zip格式)文件。然后，创建一个独立的`AssetManager`和`Resources`对象用于管理主题包中的资源。代码如图3-2
+因此，为了实现使用id或资源描述符来查找主题包中的资源，我们需要将主题资源编译打包成一个apk(也是zip格式)文件。然后，创建一个独立的`AssetManager`和`Resources`对象用于管理主题包中的资源。代码如图3-2 (图片不显示或显示不完整，请戳：[http://120.24.93.248/images/pptv/theme-switch-get-resources.png](http://120.24.93.248/images/pptv/theme-switch-get-resources.png))
 
 ![效果图](http://120.24.93.248/images/pptv/theme-switch-get-resources.png)
 
@@ -69,7 +69,8 @@ Android 原生支持通过`setTheme`方法为任一界面单独设置主题样�
 
 有了管理主题资源的`Resources`对象，在切换主题时，只要通过`Resources`对象从apk主题包中获取主题资源，并为对应的支持主题切换的控件设置相应的属性值即可。
 
-图3-3是一个示例程序的运行效果：
+图3-3是一个示例程序的运行效果： (图片不显示或显示不完整，请戳：[http://120.24.93.248/images/pptv/theme-switch-apk.gif](http://120.24.93.248/images/pptv/theme-switch-apk.gif))
+
 
 ![效果图](http://120.24.93.248/images/pptv/theme-switch-apk.gif)
 
