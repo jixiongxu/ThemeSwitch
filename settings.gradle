@@ -1,1 +1,1 @@
-include ':app',':theme-apk'
+include ':app'

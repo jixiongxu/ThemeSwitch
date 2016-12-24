@@ -5,14 +5,11 @@ android {
     buildToolsVersion "24.0.2"
 
     defaultConfig {
-        applicationId "com.likebamboo.theme.apk"
+        applicationId "com.likebamboo.theme.zip"
         minSdkVersion 14
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
-        ndk {
-            abiFilters 'armeabi'
-        }
     }
     buildTypes {
         release {
@@ -28,4 +25,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     // 材料设计支持包
     compile 'com.android.support:design:24.2.1'
+    // gson
+    compile 'com.google.code.gson:gson:2.7'
 }

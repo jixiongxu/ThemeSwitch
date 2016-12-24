@@ -1,0 +1,37 @@
+{
+  "name": "圣诞主题",
+  "size": "",
+  "md5": "",
+  "list": [
+    {
+      "name": "main_tab",
+      "bg": "",
+      "text_color": "#ff0000",
+      "text_color_s": "#555555"
+    },
+    {
+      "name": "tab_home",
+      "text": "圣",
+      "icon": "tab_home_1.png",
+      "icon_s": "tab_home_2.png"
+    },
+    {
+      "name": "tab_live",
+      "text": "诞",
+      "icon": "tab_live_1.png",
+      "icon_s": "tab_live_2.png"
+    },
+    {
+      "name": "tab_find",
+      "text": "快",
+      "icon": "tab_find_1.png",
+      "icon_s": "tab_find_2.png"
+    },
+    {
+      "name": "tab_user",
+      "text": "乐",
+      "icon": "tab_user_1.png",
+      "icon_s": "tab_user_2.png"
+    }
+  ]
+}

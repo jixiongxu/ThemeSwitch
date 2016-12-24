@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <item name="title_txt_color" type="color">#ff0000</item>
-    <item name="title_bg_drawable" type="drawable">@drawable/theme_header_bg</item>
-</resources>

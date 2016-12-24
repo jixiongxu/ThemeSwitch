@@ -1,7 +1,6 @@
 package com.likebamboo.theme;
 
 import android.annotation.SuppressLint;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AppCompatActivity;
@@ -76,27 +75,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        File themFile = new File(getDir("theme", MODE_PRIVATE).getAbsoluteFile() + File.separator + "theme.apk");
-        if (!themFile.exists()) {
-            boolean result = AssetsUtils.copyFileFromAssets(this, "theme.apk", themFile.getAbsolutePath());
-            if (result) themeFilePath = themFile.getAbsolutePath();
-        } else {
-            themeFilePath = themFile.getAbsolutePath();
+        String unZipDir = getDir("theme", MODE_PRIVATE).getAbsoluteFile() + File.separator + "zip" + File.separator;
+        try {
+            AssetsUtils.unZip(this, "theme.zip", unZipDir, true);
+            themeFilePath = unZipDir;
+        } catch (Exception e) {
+            e.printStackTrace();
+            themeFilePath = null;
         }
         // 初始化views
         initView();
-
-        mTheme.bgDrawable(mToolbar, R.drawable.title_bg_drawable)
-                .add(new Item(mToolbar, ItemType.textColor, R.color.title_txt_color) {
-                    @Override
-                    public void onThemeChange(String pkg, Resources res) {
-                        if (res == null) {
-                            mToolbar.setTitleTextColor(getResources().getColor(R.color.title_txt_color));
-                        } else {
-                            mToolbar.setTitleTextColor(res.getColor(getResourceId(pkg, res, "color", resName)));
-                        }
-                    }
-                });
 
         switchThemBt = (Button) findViewById(R.id.switch_theme);
         switchThemBt.setOnClickListener(this);
@@ -137,11 +125,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         iconIv.setImageResource(iconId);
 
         // 主题 -> tab文字颜色
-        mTheme.textColor(textTv, R.color.tab_color, true);
+        mTheme.add(new Item(textTv, ItemType.textColor, R.color.tab_color, "main_tab"));
         // 主题 -> tab文字
         mTheme.text(textTv, strId);
         // 主题 -> tab图片
-        mTheme.srcDrawable(iconIv, iconId, true);
+        mTheme.srcDrawable(iconIv, iconId);
 
         return mTabHost.newTabSpec(tabTag).setIndicator(tab);
     }
@@ -169,5 +157,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v.getId() == R.id.switch_theme) {
             switchTheme();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mTheme.clear();
     }
 }

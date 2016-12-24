@@ -1,20 +1,20 @@
 package com.likebamboo.theme.lib;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.likebamboo.theme.model.Model;
+import com.likebamboo.theme.model.ModelItem;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.lang.reflect.Method;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,14 +30,9 @@ public class Theme {
     private static String sCurrentThemePath = null;
 
     /**
-     * 主题资源resources
+     *
      */
-    private static String sThemePkg;
-
-    /**
-     * 主题资源resources
-     */
-    private static Resources sResources;
+    private static List<ModelItem> sModelItems = null;
 
     /**
      * items
@@ -56,84 +51,87 @@ public class Theme {
     /**
      * 切换主题到相应style
      *
-     * @param context      context
-     * @param themeApkPath 主题apk路径
+     * @param context  context
+     * @param themeDir 主题存放目录
      */
-    public boolean switchTheme(Context context, String themeApkPath) {
-        if (context == null || items.isEmpty() || ("" + themeApkPath).equals("" + sCurrentThemePath)) {
+    public boolean switchTheme(Context context, String themeDir) {
+        if (context == null || items.isEmpty() || ("" + themeDir).equals("" + sCurrentThemePath)) {
             return false;
         }
         // 清除主题
-        if (TextUtils.isEmpty(themeApkPath)) {
+        if (TextUtils.isEmpty(themeDir)) {
             sCurrentThemePath = null;
-            sThemePkg = null;
-            sResources = null;
             for (Item item : items) {
                 item.onThemeChange(null, null);
             }
             return true;
         }
 
-        if (sResources == null || sThemePkg == null) {
-            File f = new File(themeApkPath);
-            if (!f.exists() || f.isDirectory() || !f.canRead()) {
-                return false;
-            }
-            // 获取皮肤包信息
-            PackageInfo packageInfo = getThemePackageInfo(context, themeApkPath);
-            // 获取皮肤资源信息
-            Resources resources = genThemeResources(context, themeApkPath);
-            if (packageInfo != null && resources != null) {
-                sResources = resources;
-                sThemePkg = packageInfo.packageName;
-            }
+        if (sModelItems == null) {
+            sModelItems = parseModels(themeDir + File.separator + "config.json");
         }
-        if (sResources == null || sThemePkg == null) {
+
+        if (sModelItems == null) {
             return false;
         }
-        sCurrentThemePath = themeApkPath;
+        sCurrentThemePath = themeDir;
         for (Item item : items) {
-            item.onThemeChange(sThemePkg, sResources);
+            for (ModelItem model : sModelItems) {
+                if (model.getName().equals(item.resTag)) {
+                    item.onThemeChange(sCurrentThemePath, model);
+                }
+            }
         }
         return true;
     }
 
-    /**
-     * 获取主题包信息
-     *
-     * @param apkPath apk文件路径
-     * @return 主题资源
-     */
-    private static PackageInfo getThemePackageInfo(Context outContext, String apkPath) {
+    private static List<ModelItem> parseModels(String filePath) {
+        File f = new File(filePath);
+        if (!f.exists() || !f.isFile()) {
+            return null;
+        }
+
+        InputStream in = null;
+        ByteArrayOutputStream bos = null;
         try {
-            // 获取packageInfo
-            return outContext.getPackageManager().getPackageArchiveInfo(apkPath, PackageManager.GET_ACTIVITIES);
-        } catch (Throwable e) {
-            Log.e("wentaoli theme", "wentaoli, getThemePackageInfo error :" + e, e);
+            byte[] tempbytes = new byte[512];
+            int len = 0;
+            in = new FileInputStream(f);
+            bos = new ByteArrayOutputStream();
+            // 读入多个字节到字节数组中，byteread为一次读入的字节数
+            while ((len = in.read(tempbytes)) != -1) {
+                bos.write(tempbytes, 0, len);
+            }
+            Model model = new Gson().fromJson(new String(bos.toByteArray()), Model.class);
+            return model == null ? null : model.getList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (bos != null) {
+                try {
+                    bos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return null;
     }
 
-
     /**
-     * 获取主题资源
-     *
-     * @param outContext 外部资源Context
-     * @param apkPath    apk文件路径
-     * @return Resources
+     * 清除数据
      */
-    private static Resources genThemeResources(Context outContext, String apkPath) {
-        try {
-            AssetManager assetManager = AssetManager.class.newInstance();
-            Method addAssetPath = AssetManager.class.getMethod("addAssetPath", String.class);
-            addAssetPath.invoke(assetManager, apkPath);
-            DisplayMetrics metrics = outContext.getResources().getDisplayMetrics();
-            Configuration con = outContext.getResources().getConfiguration();
-            return new Resources(assetManager, metrics, con);
-        } catch (Throwable e) {
-            Log.e("wentaoli theme", "wentaoli, genThemeResources error :" + e, e);
-        }
-        return null;
+    public void clear() {
+        sCurrentThemePath = null;
+        sModelItems = null;
+        items.clear();
     }
 
     /**
@@ -156,19 +154,6 @@ public class Theme {
      */
     public Theme textColor(TextView view, int resId) {
         return add(new Item(view, ItemType.textColor, resId));
-    }
-
-    /**
-     * 添加一个textColor主题item
-     *
-     * @param view  view
-     * @param resId color资源id
-     * @return this
-     */
-    public Theme textColor(TextView view, int resId, boolean isSelector) {
-        Item item = new Item(view, ItemType.textColor, resId);
-        if (isSelector) item.isSelector();
-        return add(item);
     }
 
     /**
@@ -203,19 +188,6 @@ public class Theme {
      */
     public Theme srcDrawable(ImageView view, int resId) {
         return add(new Item(view, ItemType.srcDrawable, resId));
-    }
-
-    /**
-     * 添加一个src图片主题item
-     *
-     * @param view  view
-     * @param resId drawable资源id
-     * @return this
-     */
-    public Theme srcDrawable(ImageView view, int resId, boolean isSelector) {
-        Item item = new Item(view, ItemType.srcDrawable, resId);
-        if (isSelector) item.isSelector();
-        return add(item);
     }
 
     /**
