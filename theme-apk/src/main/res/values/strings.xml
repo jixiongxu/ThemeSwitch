@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tab_home">圣</string>
+    <string name="tab_live">诞</string>
+    <string name="tab_find">快</string>
+    <string name="tab_user">乐</string>
+</resources>

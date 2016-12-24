@@ -1,53 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<android.support.v4.app.FragmentTabHost
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@android:id/tabhost"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:title="?attr/default_title_name"
+            android:background="@drawable/title_bg_drawable"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:titleTextColor="?attr/default_text_color"/>
-
-        <!--TAB-->
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            app:tabTextColor="?attr/default_text_color"/>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <!-- content -->
-    <LinearLayout
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:title="@string/app_name"
+            app:titleTextColor="@color/title_txt_color"/>
 
         <Button
             android:id="@+id/switch_theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="更换主题"/>
+            android:text="@string/theme_christmas"/>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
+        <FrameLayout
+            android:id="@+id/tab_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
-</android.support.design.widget.CoordinatorLayout>
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:orientation="horizontal"/>
+
+
+    </LinearLayout>
+</android.support.v4.app.FragmentTabHost>

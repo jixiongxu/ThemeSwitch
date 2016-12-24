@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">主题切换(style)</string>
-    <string name="app_name_night">主题切换-夜间</string>
+    <string name="app_name">主题切换(apk)</string>
+    <string name="license">本程序主题图标资源属上海聚力传媒技术有限公司所有</string>
+    <string name="theme_christmas">圣诞主题</string>
+    <string name="theme_default">默认主题</string>
+    <string name="tab_home">首页</string>
+    <string name="tab_live">直播</string>
+    <string name="tab_user">我的</string>
+    <string name="tab_find">发现</string>
 </resources>

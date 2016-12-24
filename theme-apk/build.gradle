@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.2"
 
     defaultConfig {
-        applicationId "com.likebamboo.theme.apk"
+        applicationId "com.likebamboo.theme.apk.test"
         minSdkVersion 14
         targetSdkVersion 24
         versionCode 1
@@ -23,9 +23,4 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    // compact 支持包
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    // 材料设计支持包
-    compile 'com.android.support:design:24.2.1'
 }
