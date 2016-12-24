@@ -66,8 +66,6 @@ public class Theme {
         // 清除主题
         if (TextUtils.isEmpty(themeApkPath)) {
             sCurrentThemePath = null;
-            sThemePkg = null;
-            sResources = null;
             for (Item item : items) {
                 item.onThemeChange(null, null);
             }
@@ -79,9 +77,9 @@ public class Theme {
             if (!f.exists() || f.isDirectory() || !f.canRead()) {
                 return false;
             }
-            // 获取皮肤包信息
+            // 获取主题包信息
             PackageInfo packageInfo = getThemePackageInfo(context, themeApkPath);
-            // 获取皮肤资源信息
+            // 获取主题资源信息
             Resources resources = genThemeResources(context, themeApkPath);
             if (packageInfo != null && resources != null) {
                 sResources = resources;
@@ -96,6 +94,16 @@ public class Theme {
             item.onThemeChange(sThemePkg, sResources);
         }
         return true;
+    }
+
+    /**
+     * 请你资源
+     */
+    public void clear() {
+        sCurrentThemePath = null;
+        sThemePkg = null;
+        sResources = null;
+        items.clear();
     }
 
     /**

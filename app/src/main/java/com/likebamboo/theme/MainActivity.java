@@ -170,4 +170,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             switchTheme();
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mTheme.clear();
+    }
 }

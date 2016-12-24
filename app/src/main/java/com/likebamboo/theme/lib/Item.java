@@ -67,7 +67,7 @@ public class Item {
      * @param themeRes 主题资源
      */
     public void onThemeChange(String themePkg, Resources themeRes) {
-        // 没有主题吗？
+        // 如果没有主题，使用默认值
         if (themeRes == null) {
             switch (type) {
                 case bgColor: // 背景色
