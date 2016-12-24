@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.2"
 
     defaultConfig {
-        applicationId "com.likebamboo.theme"
+        applicationId "com.likebamboo.theme.style"
         minSdkVersion 14
         targetSdkVersion 24
         versionCode 1

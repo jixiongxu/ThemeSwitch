@@ -61,7 +61,7 @@ public class Item {
     }
 
     /**
-     * 皮肤更新
+     * 主题更新
      *
      * @param typedArray typedArray
      * @param index      index
